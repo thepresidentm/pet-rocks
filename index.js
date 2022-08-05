@@ -15,4 +15,15 @@ app.get("/", (req, res) => {
     res.sendFile("index.html");
 });
 
-const io = socketIo(server); 
+const io = socketIo(server);
+
+io.on('connection', (socket) =>{
+    socket.on('juego:enviar', (data) =>{
+        socket.broadcast.emit('juego:recibir',
+            data == "piedra" ||
+            data == "papel" ||
+            data == "tijeras" ?
+            data : "corrupto"
+        );
+    });
+});
