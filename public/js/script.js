@@ -1,33 +1,34 @@
 let btnPiedra = document.getElementById("piedra");
 let btnPapel = document.getElementById("papel");
 let btnTijeras = document.getElementById("tijeras");
-
-let espera = new Promise((resolve, reject) => {
-})
+let txtEspera = document.getElementById("wait");
 
 btnPiedra.addEventListener("click", () =>{
-    espera = enviar("piedra");
+    enviar("piedra");
 });
-
 
 btnPapel.addEventListener("click", () =>{
-    espera = enviar("papel");
+    enviar("papel");
 });
-
 
 btnTijeras.addEventListener("click", () =>{
-    espera = enviar("tijeras");
+    enviar("tijeras");
 });
+
+socket.on("juego:recibir", (data) => {recibir(data)});
 
 function enviar(x){
     socket.emit("juego:enviar", x);
-    return new Promise();
+    btnPapel.style.display = "none";
+    btnPiedra.style.display = "none";
+    btnTijeras.style.display = "none";
+    txtEspera.style.display = "inline";
 }
 
-espera.then(()=>{
-    window.alert("resolucion");
-});
-
-socket.on('juego:recibir', (data) =>{
-    espera.resolve(data);
-});
+function recibir(data){
+    window.alert(data);
+    btnPapel.style.display = "inline";
+    btnPiedra.style.display = "inline";
+    btnTijeras.style.display = "inline";
+    txtEspera.style.display = "none";
+}
