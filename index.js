@@ -31,15 +31,19 @@ io.on('connection', socket => {
     // });
 
     socket.on("room:create", () => {
-        let id = genId();
+        let code = genCode();
         // let newRoom = {};
         // newRoom.id = id;
         // newRoom.users = [ socket.id ];
         // rooms.push(newRoom);
         leavePastRooms(socket);
-        socket.join(id);
-        io.to(socket.id).emit("room:id", id);
+        socket.join(code);
+        io.to(socket.id).emit("room:id", code);
     });
+
+    socket.on("room:join", (code) => {
+
+    })
 
     // socket.on("disconnect", () => {
     //     console.log(getUserRooms(socket.id));
@@ -50,7 +54,9 @@ function getAllRooms(){
     let rooms = [];
     // Aunque no se use el element si lo borras no jala xd
     io.sockets.adapter.rooms.forEach((element, index) => {
-        rooms.push(index);
+        if(index.length == 6){
+            rooms.push(index);
+        }
     });
     return rooms;
 }
@@ -74,10 +80,10 @@ function leavePastRooms(socket){
     }
 }
 
-function genId(){
+function genCode(){
     let rooms = getAllRooms();
     let string = Math.random().toString(16).substring(2, 8);
-    let found = rooms.find(element => element.id == string );
+    let found = rooms.find(element => element == string);
     return found == undefined ? string : genId();
 }
 
