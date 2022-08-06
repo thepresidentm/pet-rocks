@@ -20,7 +20,6 @@ const io = socketIo(server);
 // // Rooms
 // let rooms = [];
 
-// Falta el disconnect que lo borre de todas las salas
 io.on('connection', socket => {
     // socket.on('juego:enviar', (data) =>{
     //     socket.broadcast.emit('juego:recibir',
@@ -32,7 +31,6 @@ io.on('connection', socket => {
     // });
 
     socket.on("room:create", () => {
-        // Falta validar que no este en varias salas o algo asi
         let id = genId();
         // let newRoom = {};
         // newRoom.id = id;
