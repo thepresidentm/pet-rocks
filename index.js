@@ -17,13 +17,34 @@ app.get("/", (req, res) => {
 
 const io = socketIo(server);
 
-io.on('connection', (socket) =>{
-    socket.on('juego:enviar', (data) =>{
-        socket.broadcast.emit('juego:recibir',
-            data == "piedra" ||
-            data == "papel" ||
-            data == "tijeras" ?
-            data : "corrupto"
-        );
-    });
+// Rooms
+let rooms = [];
+
+io.on('connection', socket => {
+    // socket.on('juego:enviar', (data) =>{
+    //     socket.broadcast.emit('juego:recibir',
+    //         data == "piedra" ||
+    //         data == "papel" ||
+    //         data == "tijeras" ?
+    //         data : "corrupto"
+    //     );
+    // });
+
+    socket.on("room:create", () => {
+        // Falta validar que no este en varias salas o algo asi
+        // Falta el join
+        let id = genId();
+        let newRoom = {};
+        newRoom.id = id;
+        newRoom.users = [ socket.id ];
+        rooms.push(newRoom);
+        console.log(newRoom);
+        io.to(socket.id).emit("room:id", id);
+    })
 });
+
+function genId(){
+    let string = Math.random().toString(16).substring(2, 8);
+    let found = rooms.find(element => element.id == string );
+    return found == undefined ? string : genId();
+}

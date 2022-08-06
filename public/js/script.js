@@ -3,6 +3,7 @@ let btnPapel = document.getElementById("papel");
 let btnTijeras = document.getElementById("tijeras");
 let txtEspera = document.getElementById("wait");
 
+let turno = 0;
 let eleccion = "piedra";
 
 // Falta corregir que se esperen para llegar al resultado
@@ -19,9 +20,12 @@ btnTijeras.addEventListener("click", () =>{
     enviar("tijeras");
 });
 
-socket.on("juego:recibir", (data) => {recibir(data)});
+socket.on("juego:recibir", (data) => {
+    if(turno != 0){recibir(data)}
+});
 
 function enviar(x){
+    turno = 1;
     socket.emit("juego:enviar", x);
     eleccion = x;
     btnPapel.style.display = "none";
