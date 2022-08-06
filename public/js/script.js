@@ -2,6 +2,11 @@
 let roomContainer = document.getElementById("container-room");
 let gameContainer = document.getElementById("container-game");
 
+function changeInterface(){
+    roomContainer.style.display = "none";
+    gameContainer.style.display = "block";
+}
+
 // Rooms
 let btnJoin = document.getElementById("join");
 let btnCreate = document.getElementById("create");
@@ -10,13 +15,12 @@ let containerId = document.getElementById("container-id");
     // Create Room
 btnCreate.addEventListener("click", () =>{
     socket.emit("room:create");
-    // roomContainer.style.display = "none";
-    // gameContainer.style.display = "block";
 });
 
     // Receive Room Id
 socket.on("room:id", (id) => {
     containerId.innerHTML = `Room Code: ${id}`;
+    // changeInterface();
 });
 
     // Join Room
@@ -29,8 +33,10 @@ btnJoin.addEventListener("click", () =>{
     // Join Room Confirmation
 socket.on("room:join:confirmation", message => {
     window.alert(message);
-    // roomContainer.style.display = "none";
-    // gameContainer.style.display = "block";
+    // if(message == "success"){
+    //     changeInterface();
+    // }
+    
 });
 
 // Game
