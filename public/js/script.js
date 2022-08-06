@@ -2,7 +2,7 @@
 let roomContainer = document.getElementById("container-room");
 let gameContainer = document.getElementById("container-game");
 
-function changeInterface(){
+function changeToGame(){
     roomContainer.style.display = "none";
     gameContainer.style.display = "block";
 }
@@ -20,7 +20,7 @@ btnCreate.addEventListener("click", () =>{
     // Receive Room Id
 socket.on("room:id", (id) => {
     containerId.innerHTML = `Room Code: ${id}`;
-    // changeInterface();
+    // changeToGame();
 });
 
     // Join Room
@@ -34,7 +34,7 @@ btnJoin.addEventListener("click", () =>{
 socket.on("room:join:confirmation", message => {
     window.alert(message);
     // if(message == "success"){
-    //     changeInterface();
+    //     changeToGame();
     // }
     
 });
