@@ -42,17 +42,19 @@ io.on('connection', socket => {
     });
 
     socket.on("room:join", (code) => {
-        // Falta añadir mensajes de error y eso
-        // Falta validar que no haya mas de dos personas en el mismno room
         let message = "";
         leavePastRooms(socket);
         const rooms = getAllRooms();
         let found = rooms.find(element => element == code);
         if(found != undefined){
-            socket.join(code);
-            message = "success";
+            if(getNumbersRoom(code) == 1){
+                socket.join(code);
+                message = "success";
+            }else{
+                message = "The room already has 2 members on it";
+            }
         }else{
-            message = "error";
+            message = "The code doesn't exist";
         }
         io.to(socket.id).emit("room:join:confirmation", message);
     })
@@ -97,6 +99,10 @@ function genCode(){
     let string = Math.random().toString(16).substring(2, 8);
     let found = rooms.find(element => element == string);
     return found == undefined ? string : genId();
+}
+
+function getNumbersRoom(room){
+    return io.sockets.adapter.rooms.get(room).size;
 }
 
 // function getUserRooms(user){
