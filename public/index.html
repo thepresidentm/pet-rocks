@@ -4,21 +4,29 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Index</title>
+    <title>Pet Rocks</title>
 </head>
 <body>
-    <button id="piedra">
-        Piedra
-    </button>
-    <button id="papel">
-        Papel
-    </button>
-    <button id="tijeras">
-        Tijeras
-    </button>
-    <p id="wait" style="display: none;">
-        Espera a que tu oponente haga su eleccion
-    </p>
+    <div id="container-room">
+        <input id="roomId" type="text" placeholder="Room Code"></input>
+        <button id="join">Join Room</button>
+        <br><br>
+        <button id="create">Create Room</button>
+    </div>
+    <div id="container-game" style="display: none;">
+        <button id="piedra">
+            Piedra
+        </button>
+        <button id="papel">
+            Papel
+        </button>
+        <button id="tijeras">
+            Tijeras
+        </button>
+        <p id="wait" style="display: none;">
+            Espera a que tu oponente haga su eleccion
+        </p>
+    </div>
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
