@@ -42,7 +42,19 @@ io.on('connection', socket => {
     });
 
     socket.on("room:join", (code) => {
-
+        // Falta añadir mensajes de error y eso
+        // Falta validar que no haya mas de dos personas en el mismno room
+        let message = "";
+        leavePastRooms(socket);
+        const rooms = getAllRooms();
+        let found = rooms.find(element => element == code);
+        if(found != undefined){
+            socket.join(code);
+            message = "success";
+        }else{
+            message = "error";
+        }
+        io.to(socket.id).emit("room:join:confirmation", message);
     })
 
     // socket.on("disconnect", () => {

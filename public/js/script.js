@@ -19,4 +19,18 @@ socket.on("room:id", (id) => {
     containerId.innerHTML = `Room Code: ${id}`;
 });
 
+    // Join Room
+btnJoin.addEventListener("click", () =>{
+    // Falta validacion front
+    let code = document.getElementById("roomCode").value;
+    socket.emit("room:join", code);
+});
+
+    // Join Room Confirmation
+socket.on("room:join:confirmation", message => {
+    window.alert(message);
+    // roomContainer.style.display = "none";
+    // gameContainer.style.display = "block";
+});
+
 // Game
