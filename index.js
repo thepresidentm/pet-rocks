@@ -57,7 +57,11 @@ io.on('connection', socket => {
             message = "The code doesn't exist";
         }
         io.to(socket.id).emit("room:join:confirmation", message);
-    })
+    });
+
+    socket.on("room:leave", (code) => {
+        socket.leave(code);
+    });
 
     // socket.on("disconnect", () => {
     //     console.log(getUserRooms(socket.id));
