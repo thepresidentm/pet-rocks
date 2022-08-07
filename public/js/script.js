@@ -19,6 +19,7 @@ let btnCreate = document.getElementById("create");
 let btnLeave = document.getElementById("leave");
 let containerId = document.getElementById("container-id");
 let room;
+const regex = /^[a-z0-9]{6}$/;
     // Create Room
 btnCreate.addEventListener("click", () =>{
     socket.emit("room:create");
@@ -33,10 +34,13 @@ socket.on("room:id", (code) => {
 
     // Join Room
 btnJoin.addEventListener("click", () =>{
-    // Falta validacion front
     let code = document.getElementById("roomCode").value;
-    room = code;
-    socket.emit("room:join", code);
+    if(regex.test(code)){
+        room = code;
+        socket.emit("room:join", code);
+    }else{
+        window.alert("The code isn't valid");
+    } 
 });
 
     // Join Room Confirmation
